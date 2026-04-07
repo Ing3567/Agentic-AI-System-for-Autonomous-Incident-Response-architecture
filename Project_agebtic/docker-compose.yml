@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  n8n:
+    image: docker.n8n.io/n8nio/n8n
+    container_name: n8n
+    restart: always
+    environment:
+      - N8N_HOST=n8n.soc-agent-project.engineer       
+      - N8N_PORT=5678            
+      - N8N_PROTOCOL=https       
+      - NODE_ENV=production
+      - WEBHOOK_URL=https://n8n.soc-agent-project.engineer/ 
+      - GENERIC_TIMEZONE=Asia/Bangkok
+      - N8N_USER_MANAGEMENT_DISABLED=true
+    volumes:
+      - n8n_data:/home/node/.n8n
+      - ./local-files:/files
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    restart: always
+    command: tunnel --no-autoupdate run --token eyJhIjoiOTI3YzYyYjJjMDIzMmNjZjYxYTRlOWM5MTM2ZDJhOTciLCJ0IjoiMDI3OTgyNTQtMjc5Ni00MDUzLTkzMzctN2IyNTZkMTA1MDg1IiwicyI6IllqbGpPRFprTjJVdFlqWmlOaTAwTWpRd0xUaGlZbUV0TW1ZMk5qWTFNVGRrTldNNCJ9 # ใส่ Token ที่ได้จาก Zero Trust Dashboard
+    depends_on:
+      - n8n
+
+
+volumes:
+  n8n_data: {} 

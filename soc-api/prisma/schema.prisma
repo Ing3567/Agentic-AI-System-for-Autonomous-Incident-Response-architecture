@@ -1,0 +1,60 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL") 
+}
+
+model Incident {
+  id              String           @id @default(cuid())
+  incidentNumber  String           @unique
+  timestamp       DateTime         @default(now())
+  threatType      String
+  severity        String
+  status          String           @default("Pending")
+  sourceIP        String
+  duration        String?
+  confidenceScore Float            @default(0)
+  description     String?
+
+  // n8n Wait/Resume - มีเฉพาะเมื่อ n8n ส่งมา
+  resumeUrl       String?          // null = ไม่ต้อง approve
+  approvalStatus  String?          // null | "waiting" | "approved" | "rejected"
+  approvedAt      DateTime?
+  approvedBy      String?
+
+  resolvedAt      DateTime?
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  timeline        TimelineEvent[]
+
+  @@index([status])
+  @@index([severity])
+  @@index([approvalStatus])
+  @@index([timestamp])
+}
+
+model TimelineEvent {
+  id          String   @id @default(cuid())
+  step        Int
+  title       String
+  time        String
+  description String
+  type        String
+  createdAt   DateTime @default(now())
+
+  incidentId  String
+  incident    Incident @relation(fields: [incidentId], references: [id], onDelete: Cascade)
+
+  @@index([incidentId])
+}
+
+model IdSequence {
+  id        String   @id @default(cuid())
+  prefix    String   @unique
+  current   Int      @default(0)
+  updatedAt DateTime @updatedAt
+}

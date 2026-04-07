@@ -1,0 +1,32 @@
+# ==========================================
+# 🛑 1. SECRETS & CREDENTIALS (ห้ามเอาขึ้นเด็ดขาด!)
+# ==========================================
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+Wazuh/config/wazuh_indexer_ssl_certs/
+
+# ==========================================
+# 📦 2. NODE.JS & NEXT.JS (ฝั่ง soc-api)
+# ==========================================
+soc-api/node_modules/
+soc-api/.next/
+soc-api/out/
+soc-api/build/
+soc-api/.npm/
+
+# ==========================================
+# 🐳 3. LOCAL DATA & DOCKER VOLUMES
+# ==========================================
+Project_agebtic/local-files/
+Wazuh/wazuh_data/
+**/logs/
+
+# ==========================================
+# 💻 4. OS & EDITOR FILES
+# ==========================================
+.DS_Store
+Thumbs.db
+.vscode/
