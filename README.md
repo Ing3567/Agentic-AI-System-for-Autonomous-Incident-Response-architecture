@@ -31,6 +31,7 @@ This project adopts a Monorepo approach to maintain separation of concerns while
 ├── soc-api/                   # Frontend & Backend (Next.js + Prisma)
 ├── Project_agebtic/           # Orchestration workflows & RAG (n8n + AnythingLLM)
 └── Wazuh/                     # SIEM Configuration & Compose files
+```
 🚀 Getting Started
 Prerequisites
 Docker & Docker Compose
@@ -43,31 +44,36 @@ Installation & Setup
 1. Clone the repository
 
 Bash
+```
 git clone [https://github.com/](https://github.com/)<YOUR-USERNAME>/<REPO-NAME>.git
 cd <REPO-NAME>
 2. Environment Configuration (Crucial)
 Never hardcode passwords. Create a .env file in the /Wazuh directory and define your credentials:
-
+```
+```
 ข้อมูลโค้ด
 INDEXER_PASSWORD=your_secure_password
 API_PASSWORD=your_secure_api_password
 (Ensure .env is listed in your .gitignore)
-
+```
 3. Deploy Services
 Start each layer independently from their respective directories:
-
+```
 Bash
 # Start SIEM Layer
 cd Wazuh
 docker compose up -d
-
+```
+```
 # Start Orchestration Layer
 cd ../Project_agebtic
 docker compose up -d
 4. Start the Web Dashboard
-
+```
+```
 Bash
 cd ../soc-api
 npm install
 npx prisma generate
 npm run dev
+```
